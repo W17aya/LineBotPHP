@@ -21,7 +21,6 @@ namespace LINE\LINEBot\MessageBuilder;
 use LINE\LINEBot\Constant\MessageType;
 use LINE\LINEBot\MessageBuilder;
 use LINE\LINEBot\QuickReplyBuilder;
-use LINE\LINEBot\SenderBuilder\SenderBuilder;
 
 /**
  * A builder class for image message.
@@ -42,27 +41,18 @@ class ImageMessageBuilder implements MessageBuilder
     /** @var QuickReplyBuilder|null */
     private $quickReply;
 
-    /** @var SenderBuilder|null */
-    private $sender;
-
     /**
      * ImageMessageBuilder constructor.
      *
      * @param string $originalContentUrl
      * @param string $previewImageUrl
      * @param QuickReplyBuilder|null $quickReply
-     * @param SenderBuilder|null $sender
      */
-    public function __construct(
-        $originalContentUrl,
-        $previewImageUrl,
-        QuickReplyBuilder $quickReply = null,
-        SenderBuilder $sender = null
-    ) {
+    public function __construct($originalContentUrl, $previewImageUrl, QuickReplyBuilder $quickReply = null)
+    {
         $this->originalContentUrl = $originalContentUrl;
         $this->previewImageUrl = $previewImageUrl;
         $this->quickReply = $quickReply;
-        $this->sender = $sender;
     }
 
     /**
@@ -84,10 +74,6 @@ class ImageMessageBuilder implements MessageBuilder
 
         if ($this->quickReply) {
             $imageMessage['quickReply'] = $this->quickReply->buildQuickReply();
-        }
-
-        if ($this->sender) {
-            $imageMessage['sender'] = $this->sender->buildSender();
         }
 
         $this->message[] = $imageMessage;

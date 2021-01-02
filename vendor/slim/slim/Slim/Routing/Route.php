@@ -71,14 +71,14 @@ class Route implements RouteInterface, RequestHandlerInterface
     /**
      * Route parameters
      *
-     * @var string[]
+     * @var array
      */
     protected $arguments = [];
 
     /**
      * Route arguments parameters
      *
-     * @var string[]
+     * @var array
      */
     protected $savedArguments = [];
 
@@ -369,13 +369,10 @@ class Route implements RouteInterface, RequestHandlerInterface
         }
         $strategy = $this->invocationStrategy;
 
-        /** @var string[] $strategyImplements */
-        $strategyImplements = class_implements($strategy);
-
         if (
             is_array($callable)
             && $callable[0] instanceof RequestHandlerInterface
-            && !in_array(RequestHandlerInvocationStrategyInterface::class, $strategyImplements)
+            && !in_array(RequestHandlerInvocationStrategyInterface::class, class_implements($strategy))
         ) {
             $strategy = new RequestHandler();
         }

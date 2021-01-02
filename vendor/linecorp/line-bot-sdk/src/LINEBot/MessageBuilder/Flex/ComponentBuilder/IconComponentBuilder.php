@@ -60,7 +60,7 @@ class IconComponentBuilder implements ComponentBuilder
      *
      * @param string $url
      * @param ComponentMargin|null $margin
-     * @param ComponentIconSize|string|null $size
+     * @param ComponentIconSize|null $size
      * @param ComponentIconAspectRatio|null $aspectRatio
      */
     public function __construct($url, $margin = null, $size = null, $aspectRatio = null)
@@ -107,11 +107,6 @@ class IconComponentBuilder implements ComponentBuilder
 
     /**
      * Set size.
-     *
-     * specifiable pixel and keyword.
-     * (e.g.
-     * pixel: 5px
-     * keyword: xxs (defined in ComponentIconSize)
      *
      * @param ComponentIconSize|string|null $size
      * @return IconComponentBuilder

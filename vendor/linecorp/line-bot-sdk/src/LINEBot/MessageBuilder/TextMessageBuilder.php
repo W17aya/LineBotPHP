@@ -21,8 +21,6 @@ namespace LINE\LINEBot\MessageBuilder;
 use LINE\LINEBot\Constant\MessageType;
 use LINE\LINEBot\MessageBuilder;
 use LINE\LINEBot\QuickReplyBuilder;
-use LINE\LINEBot\SenderBuilder\SenderBuilder;
-use LINE\LINEBot\MessageBuilder\Text\EmojiTextBuilder;
 
 /**
  * A builder class for text message.
@@ -31,7 +29,7 @@ use LINE\LINEBot\MessageBuilder\Text\EmojiTextBuilder;
  */
 class TextMessageBuilder implements MessageBuilder
 {
-    /** @var mixed[] */
+    /** @var string[] */
     private $texts;
 
     /** @var array */
@@ -39,9 +37,6 @@ class TextMessageBuilder implements MessageBuilder
 
     /** @var QuickReplyBuilder|null */
     private $quickReply;
-
-    /** @var SenderBuilder|null */
-    private $sender;
 
     /**
      * TextMessageBuilder constructor.
@@ -68,9 +63,7 @@ class TextMessageBuilder implements MessageBuilder
                 if ($extra instanceof QuickReplyBuilder) {
                     $this->quickReply = $extra;
                     unset($extras[$key]);
-                } elseif ($extra instanceof SenderBuilder) {
-                    $this->sender = $extra;
-                    unset($extras[$key]);
+                    break;
                 }
             }
             $extras = array_values($extras);
@@ -90,10 +83,6 @@ class TextMessageBuilder implements MessageBuilder
         }
 
         foreach ($this->texts as $text) {
-            if ($text instanceof EmojiTextBuilder) {
-                $this->message[] = $text->build();
-                continue;
-            }
             $this->message[] = [
                 'type' => MessageType::TEXT,
                 'text' => $text,
@@ -106,12 +95,6 @@ class TextMessageBuilder implements MessageBuilder
             // If the user receives multiple message objects.
             // The quickReply property of the last message object is displayed.
             $this->message[$lastKey]['quickReply'] = $this->quickReply->buildQuickReply();
-        }
-
-        if ($this->sender) {
-            foreach ($this->message as $messageKey => $message) {
-                $this->message[$messageKey]['sender'] = $this->sender->buildSender();
-            }
         }
 
         return $this->message;

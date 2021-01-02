@@ -1,143 +1,74 @@
 {
-  "type": "carousel",
-  "contents": [
-    {
-      "type": "bubble",
-      "size": "micro",
-      "hero": {
-        "type": "image",
-        "url": "https://asset-a.grid.id/crop/0x0:0x0/700x465/photo/sasefoto/original/24392-tahu-kupat.jpg",
-        "size": "full",
-        "aspectMode": "cover",
-        "aspectRatio": "320:213"
-      },
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": "Tahu Kupat",
-            "weight": "bold",
-            "size": "md",
-            "wrap": true
-          },
-          {
-            "type": "text",
-            "text": "Rp. 9.000",
-            "size": "sm"
-          }
-        ],
-        "spacing": "sm",
-        "paddingAll": "13px"
-      },
-      "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "ORDER",
-              "text": "order - soto ayam"
-            },
-            "style": "primary"
-          }
-        ]
+  "type": "bubble",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Dicoding Academy",
+        "weight": "bold"
       }
-    },
-    {
-      "type": "bubble",
-      "size": "micro",
-      "hero": {
-        "type": "image",
-        "url": "https://www.resepistimewa.com/wp-content/uploads/soto-ayam-being.jpg",
-        "size": "full",
-        "aspectMode": "cover",
-        "aspectRatio": "320:213"
+    ]
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://www.dicoding.com/images/small/academy/menjadi_android_developer_expert_logo_041217105708.png",
+    "size": "full",
+    "aspectRatio": "4:3",
+    "aspectMode": "cover"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "Menjadi Android Developer Expert",
+        "size": "sm",
+        "color": "#c9302c",
+        "weight": "bold"
       },
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": "Soto Ayam",
-            "weight": "bold",
-            "size": "md",
-            "wrap": true
-          },
-          {
-            "type": "text",
-            "text": "Rp. 7.000",
-            "size": "sm"
-          }
-        ],
-        "spacing": "sm",
-        "paddingAll": "13px"
+      {
+        "type": "text",
+        "text": "oleh: Dicoding Indonesia",
+        "size": "sm",
+        "color": "#c9302c"
       },
-      "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "ORDER",
-              "text": "order - bakso"
-            },
-            "style": "primary"
-          }
-        ]
+      {
+        "type": "text",
+        "text": "Jadilah expert di dunia pemrograman Android. Materi disusun oleh Dicoding sebagai Google Authorized Training Partner.",
+        "size": "sm",
+        "wrap": true,
+        "margin": "lg"
       }
-    },
-    {
-      "type": "bubble",
-      "size": "micro",
-      "hero": {
-        "type": "image",
-        "url": "https://s0.bukalapak.com/uploads/content_attachment/f977148d24e30b743df3f2b5/w-744/foto_thumbnail_ayam_penyet.jpg",
-        "size": "full",
-        "aspectMode": "cover",
-        "aspectRatio": "320:213"
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "horizontal",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "secondary",
+        "action": {
+          "type": "postback",
+          "label": "Trial",
+          "displayText": "Trial",
+          "data": "Trial"
+        }
       },
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "text": "Ayam Penyetan",
-            "weight": "bold",
-            "size": "md",
-            "wrap": true
-          },
-          {
-            "type": "text",
-            "text": "Rp. 15.000",
-            "size": "sm"
-          }
-        ],
-        "spacing": "sm",
-        "paddingAll": "13px"
-      },
-      "footer": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "message",
-              "label": "ORDER",
-              "text": "order - sate ayam"
-            },
-            "style": "primary"
-          }
-        ]
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "postback",
+          "label": "Daftar",
+          "displayText": "Daftar",
+          "data": "Daftar"
+        }
       }
-    }
-  ]
+    ]
+  }
 }

@@ -30,7 +30,6 @@ use LINE\LINEBot\Constant\Flex\ComponentSpacing;
 use LINE\LINEBot\Constant\Flex\ComponentPosition;
 use LINE\LINEBot\Constant\Flex\ComponentTextDecoration;
 use LINE\LINEBot\Constant\Flex\ComponentTextStyle;
-use LINE\LINEBot\Constant\Flex\ComponentAdjustMode;
 
 class TextComponentBuilderTest extends TestCase
 {

@@ -63,7 +63,7 @@ class Response
      */
     public function isSucceeded()
     {
-        return 200 <= $this->httpStatus && $this->httpStatus <= 299;
+        return $this->httpStatus === 200;
     }
 
     /**

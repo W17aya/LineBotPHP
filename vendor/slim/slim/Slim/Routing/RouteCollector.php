@@ -277,11 +277,7 @@ class RouteCollector implements RouteCollectorInterface
     }
 
     /**
-     * @param string[]        $methods
-     * @param string          $pattern
-     * @param callable|string $callable
-     *
-     * @return RouteInterface
+     * {@inheritdoc}
      */
     protected function createRoute(array $methods, string $pattern, $callable): RouteInterface
     {

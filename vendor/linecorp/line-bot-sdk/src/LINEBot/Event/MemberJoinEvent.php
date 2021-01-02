@@ -38,7 +38,7 @@ class MemberJoinEvent extends BaseEvent
     /**
      * Returns joined members.
      *
-     * @return array
+     * @return string
      */
     public function getMembers()
     {

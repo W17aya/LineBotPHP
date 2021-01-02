@@ -73,7 +73,7 @@ class MiddlewareDispatcher implements MiddlewareDispatcherInterface
     /**
      * Invoke the middleware stack
      *
-     * @param ServerRequestInterface $request
+     * @param  ServerRequestInterface $request
      * @return ResponseInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -105,7 +105,6 @@ class MiddlewareDispatcher implements MiddlewareDispatcherInterface
             return $this->addCallable($middleware);
         }
 
-        /** @phpstan-ignore-next-line */
         throw new RuntimeException(
             'A middleware must be an object/class name referencing an implementation of ' .
             'MiddlewareInterface or a callable with a matching signature.'
@@ -125,15 +124,9 @@ class MiddlewareDispatcher implements MiddlewareDispatcherInterface
     public function addMiddleware(MiddlewareInterface $middleware): MiddlewareDispatcherInterface
     {
         $next = $this->tip;
-        $this->tip = new class ($middleware, $next) implements RequestHandlerInterface {
-            /**
-             * @var MiddlewareInterface
-             */
+        $this->tip = new class ($middleware, $next) implements RequestHandlerInterface
+        {
             private $middleware;
-
-            /**
-             * @var RequestHandlerInterface
-             */
             private $next;
 
             public function __construct(MiddlewareInterface $middleware, RequestHandlerInterface $next)
@@ -169,25 +162,11 @@ class MiddlewareDispatcher implements MiddlewareDispatcherInterface
             $next,
             $this->container,
             $this->callableResolver
-        ) implements RequestHandlerInterface {
-            /**
-             * @var string
-             */
+        ) implements RequestHandlerInterface
+        {
             private $middleware;
-
-            /**
-             * @var RequestHandlerInterface
-             */
             private $next;
-
-            /**
-             * @var ContainerInterface|null
-             */
             private $container;
-
-            /**
-             * @var CallableResolverInterface|null
-             */
             private $callableResolver;
 
             public function __construct(
@@ -257,12 +236,10 @@ class MiddlewareDispatcher implements MiddlewareDispatcherInterface
                 }
 
                 if (!is_callable($callable)) {
-                    throw new RuntimeException(
-                        sprintf(
-                            'Middleware %s is not resolvable',
-                            $this->middleware
-                        )
-                    );
+                    throw new RuntimeException(sprintf(
+                        'Middleware %s is not resolvable',
+                        $this->middleware
+                    ));
                 }
 
                 return $callable($request, $this->next);
@@ -287,19 +264,12 @@ class MiddlewareDispatcher implements MiddlewareDispatcherInterface
         $next = $this->tip;
 
         if ($this->container && $middleware instanceof Closure) {
-            /** @var Closure $middleware */
             $middleware = $middleware->bindTo($this->container);
         }
 
-        $this->tip = new class ($middleware, $next) implements RequestHandlerInterface {
-            /**
-             * @var callable
-             */
+        $this->tip = new class ($middleware, $next) implements RequestHandlerInterface
+        {
             private $middleware;
-
-            /**
-             * @var RequestHandlerInterface
-             */
             private $next;
 
             public function __construct(callable $middleware, RequestHandlerInterface $next)

@@ -24,7 +24,6 @@ use LINE\LINEBot\Constant\Flex\ComponentButtonStyle;
 use LINE\LINEBot\Constant\Flex\ComponentGravity;
 use LINE\LINEBot\Constant\Flex\ComponentMargin;
 use LINE\LINEBot\Constant\Flex\ComponentType;
-use LINE\LINEBot\Constant\Flex\ComponentAdjustMode;
 use LINE\LINEBot\MessageBuilder\Flex\ComponentBuilder;
 use LINE\LINEBot\Util\BuildUtil;
 
@@ -60,9 +59,6 @@ class ButtonComponentBuilder implements ComponentBuilder
     private $offsetStart;
     /** @var string */
     private $offsetEnd;
-
-    /** @var ComponentAdjustMode */
-    private $adjustMode;
 
     /** @var array */
     private $component;
@@ -277,18 +273,6 @@ class ButtonComponentBuilder implements ComponentBuilder
     }
 
     /**
-     * Set adjustMode
-     *
-     * @param ComponentAdjustMode|null $adjustMode
-     * @return $this
-     */
-    public function setAdjustMode($adjustMode)
-    {
-        $this->adjustMode = $adjustMode;
-        return $this;
-    }
-
-    /**
      * Builds button component structure.
      *
      * @return array
@@ -313,7 +297,6 @@ class ButtonComponentBuilder implements ComponentBuilder
             'offsetBottom' => $this->offsetBottom,
             'offsetStart' => $this->offsetStart,
             'offsetEnd' => $this->offsetEnd,
-            'adjustMode' => $this->adjustMode,
         ]);
 
         return $this->component;

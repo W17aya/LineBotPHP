@@ -70,7 +70,7 @@ final class ArraySerializer
      * @param string $key
      * @param string $message
      * @return mixed
-     * @throws Exception\DeserializationException
+     * @throws UnexpectedValueException
      */
     private static function getValueFromKey(array $data, string $key, string $message = null)
     {

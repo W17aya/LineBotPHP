@@ -155,7 +155,7 @@ class AppFactory
             if ($psr17factory::isResponseFactoryAvailable()) {
                 $responseFactory = $psr17factory::getResponseFactory();
 
-                if (static::$streamFactory || $psr17factory::isStreamFactoryAvailable()) {
+                if ($psr17factory::isStreamFactoryAvailable() || static::$streamFactory) {
                     $streamFactory = static::$streamFactory ?? $psr17factory::getStreamFactory();
                     return static::attemptResponseFactoryDecoration($responseFactory, $streamFactory);
                 }

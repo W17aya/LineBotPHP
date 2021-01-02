@@ -46,6 +46,11 @@ class StreamFactory implements StreamFactoryInterface
      */
     public function createStreamFromResource($resource) : StreamInterface
     {
+        if (! is_resource($resource) || 'stream' !== get_resource_type($resource)) {
+            throw new Exception\InvalidArgumentException(
+                'Invalid stream provided; must be a stream resource'
+            );
+        }
         return new Stream($resource);
     }
 }

@@ -21,7 +21,6 @@ namespace LINE\LINEBot\MessageBuilder;
 use LINE\LINEBot\Constant\MessageType;
 use LINE\LINEBot\MessageBuilder;
 use LINE\LINEBot\QuickReplyBuilder;
-use LINE\LINEBot\SenderBuilder\SenderBuilder;
 
 /**
  * A builder class for video message.
@@ -39,9 +38,6 @@ class VideoMessageBuilder implements MessageBuilder
     /** @var QuickReplyBuilder|null */
     private $quickReply;
 
-    /** @var SenderBuilder|null */
-    private $sender;
-
     /** @var array */
     private $message = [];
 
@@ -51,18 +47,12 @@ class VideoMessageBuilder implements MessageBuilder
      * @param string $originalContentUrl
      * @param string $previewImageUrl
      * @param QuickReplyBuilder|null $quickReply
-     * @param SenderBuilder|null $sender
      */
-    public function __construct(
-        $originalContentUrl,
-        $previewImageUrl,
-        QuickReplyBuilder $quickReply = null,
-        SenderBuilder $sender = null
-    ) {
+    public function __construct($originalContentUrl, $previewImageUrl, QuickReplyBuilder $quickReply = null)
+    {
         $this->originalContentUrl = $originalContentUrl;
         $this->previewImageUrl = $previewImageUrl;
         $this->quickReply = $quickReply;
-        $this->sender = $sender;
     }
 
     /**
@@ -84,10 +74,6 @@ class VideoMessageBuilder implements MessageBuilder
 
         if ($this->quickReply) {
             $video['quickReply'] = $this->quickReply->buildQuickReply();
-        }
-
-        if ($this->sender) {
-            $video['sender'] = $this->sender->buildSender();
         }
 
         $this->message[] = $video;

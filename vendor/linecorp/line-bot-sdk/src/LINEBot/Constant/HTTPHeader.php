@@ -21,5 +21,4 @@ namespace LINE\LINEBot\Constant;
 class HTTPHeader
 {
     const LINE_SIGNATURE = 'X_LINE_SIGNATURE';
-    const LINE_RETRY_KEY = 'X-Line-Retry-Key';
 }
