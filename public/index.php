@@ -75,28 +75,62 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
         foreach ($data['events'] as $event) {
             if ($event['type'] == 'message') {
                 if ($event['message']['type'] == 'text') {
-                    // send same message as reply to user
-                    $result = $bot->replyText($event['replyToken'], $event['message']['text']);
-
-
-
-
-                    // or we can use replyMessage() instead to send reply message
-                    // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
-                    // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-
-
-
+                    switch (strtolower($event['message']['text'])) {
+                        case 'start':
+                            $text = "Hi, Nama saya Paijo \n\nSaya adalah BOT yang akan membantu kamu untuk memesan \n\nKetik 'Menu' untuk memunculkan menu";
+                            $result = $bot->replyText($event['replyToken'], $text);
+                            break;
+                        case 'menu':
+                            $flexTemplate = file_get_contents("../flex_message.json"); // template flex message
+                            $result = $httpClient->post(LINEBot::DEFAULT_ENDPOINT_BASE . '/v2/bot/message/reply', [
+                                'replyToken' => $event['replyToken'],
+                                'messages'   => [
+                                    [
+                                        'type'     => 'flex',
+                                        'altText'  => 'Daftar Menu',
+                                        'contents' => json_decode($flexTemplate)
+                                    ]
+                                ],
+                            ]);
+                            break;
+                        case 'order':
+                            $text = "Terima Kasih \n\nPesanan anda sedang diproses";
+                            $result = $bot->replyText($event['replyToken'], $text);
+                            break;
+                        case 'order - Tahu kupat':
+                            $text = "Terima Kasih \n\nPesanan Tahu kupat anda sedang diproses";
+                            $result = $bot->replyText($event['replyToken'], $text);
+                            break;
+                        case 'order - Soto ayam':
+                            $text = "Terima Kasih \n\nPesanan Soto ayam sedang diproses";
+                            $result = $bot->replyText($event['replyToken'], $text);
+                            break;
+                        case 'order - Ayam penyet':
+                            $text = "Terima Kasih \n\nPesanan Ayam penyet sedang diproses";
+                            $result = $bot->replyText($event['replyToken'], $text);
+                            break;
+                        default:
+                            $text = "KEYWORD yang anda masukkan salah \n\nKetik START untuk menggunakan BOT";
+                            $result = $bot->replyText($event['replyToken'], $text);
+                            break;
+                    }
 
                     $response->getBody()->write(json_encode($result->getJSONDecodedBody()));
                     return $response
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus($result->getHTTPStatus());
+                } else {
+                    $text = "KEYWORD yang anda masukkan salah \n\nKetik START untuk menggunakan BOT";
+                    $result = $bot->replyText($event['replyToken'], $text);
                 }
             }
         }
-        return $response->withStatus(200, 'for Webhook!'); //buat ngasih response 200 ke pas verify webhook
+        return $response->withStatus(200, 'for Webhook!');
     }
     return $response->withStatus(400, 'No event sent!');
 });
+
+
+
+
 $app->run();
