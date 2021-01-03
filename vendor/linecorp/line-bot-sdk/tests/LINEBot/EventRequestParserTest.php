@@ -38,6 +38,7 @@ use LINE\LINEBot\Event\MessageEvent\VideoMessage;
 use LINE\LINEBot\Event\PostbackEvent;
 use LINE\LINEBot\Event\Things\ThingsResultAction;
 use LINE\LINEBot\Event\ThingsEvent;
+use LINE\LINEBot\Event\VideoPlayCompleteEvent;
 use LINE\LINEBot\Event\UnfollowEvent;
 use LINE\LINEBot\Event\UnknownEvent;
 use LINE\Tests\LINEBot\Util\DummyHttpClient;
@@ -61,7 +62,15 @@ class EventRequestParserTest extends TestCase
    "message":{
     "id":"contentid",
     "type":"text",
-    "text":"message"
+    "text":"message (love)",
+    "emojis": [
+      {
+        "index": 8,
+        "length": 6,
+        "productId": "5ac1bfd5040ab15980c9b435",
+        "emojiId": "001"
+      }
+    ]
    }
   },
   {
@@ -209,7 +218,8 @@ class EventRequestParserTest extends TestCase
     "type":"sticker",
     "packageId":"1",
     "stickerId":"2",
-    "stickerResourceType":"STATIC"
+    "stickerResourceType":"STATIC",
+    "keywords": ["a","b","c","d","e","f","g","h","i","j","k","l","m","n"]
    }
   },
   {
@@ -499,6 +509,46 @@ class EventRequestParserTest extends TestCase
      ]
     }
    }
+  },  
+  {
+   "type":"message",
+   "mode":"active",
+   "timestamp":12345678901234,
+   "source":{
+    "type":"user",
+    "userId":"userid"
+   },
+   "replyToken":"replytoken",
+   "message":{
+    "id":"contentid",
+    "type":"text",
+    "text":"message without emoji"
+   }
+  },
+  {
+   "type":"unsend",
+   "timestamp":12345678901234,
+   "source":{
+    "type": "group",
+    "groupId":"groupid",
+    "userId":"userid"
+   },
+   "unsend": {
+        "messageId": "325708"
+   }
+  },
+  {
+   "type":"videoPlayComplete",
+   "timestamp":12345678901234,
+   "source":{
+    "type": "group",
+    "groupId":"groupid",
+    "userId":"userid"
+   },
+   "videoPlayComplete": {
+    "trackingId": "track_id"
+   },
+   "replyToken":"replytoken"
   }
  ]
 }
@@ -515,13 +565,13 @@ JSON;
         }), ['channelSecret' => 'testsecret']);
         list($destination, $events) = $bot->parseEventRequest(
             $this::$json,
-            'qsC+32XO0KUio+ScsxnvUk4t/sYfCyseYaNwi2AA7cw=',
+            '72gRU3rSwbF9yWd6+dqOK7IwIbDE+/TLu56PKoysdHE=',
             false
         );
 
         $this->assertEquals($destination, 'U0123456789abcdef0123456789abcd');
 
-        $this->assertEquals(count($events), 29);
+        $this->assertEquals(count($events), 32);
 
         {
             // text
@@ -537,7 +587,12 @@ JSON;
             $this->assertEquals('replytoken', $event->getReplyToken());
             $this->assertEquals('contentid', $event->getMessageId());
             $this->assertEquals('text', $event->getMessageType());
-            $this->assertEquals('message', $event->getText());
+            $this->assertEquals('message (love)', $event->getText());
+            $emojiInfo = $event->getEmojis()[0];
+            $this->assertEquals(8, $emojiInfo->getIndex());
+            $this->assertEquals(6, $emojiInfo->getLength());
+            $this->assertEquals('5ac1bfd5040ab15980c9b435', $emojiInfo->getProductId());
+            $this->assertEquals('001', $emojiInfo->getEmojiId());
         }
 
         {
@@ -666,6 +721,10 @@ JSON;
             $this->assertEquals(1, $event->getPackageId());
             $this->assertEquals(2, $event->getStickerId());
             $this->assertEquals(StickerResourceType::STATIC_IMAGE, $event->getStickerResourceType());
+            $this->assertEquals(
+                ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'],
+                $event->getKeywords()
+            );
         }
 
         {
@@ -893,6 +952,40 @@ JSON;
             $actionResults = $scenarioResult->getActionResults();
             $this->assertEquals(ThingsResultAction::TYPE_BINARY, $actionResults[0]->getType());
             $this->assertEquals('/w==', $actionResults[0]->getData());
+        }
+
+        {
+            // text without emoji
+            $event = $events[29];
+            $this->assertEquals(12345678901234, $event->getTimestamp());
+            $this->assertEquals('active', $event->getMode());
+            $this->assertTrue($event->isUserEvent());
+            $this->assertEquals('userid', $event->getUserId());
+            $this->assertEquals('userid', $event->getEventSourceId());
+            $this->assertInstanceOf('LINE\LINEBot\Event\MessageEvent', $event);
+            $this->assertInstanceOf('LINE\LINEBot\Event\MessageEvent\TextMessage', $event);
+            /** @var TextMessage $event */
+            $this->assertEquals('replytoken', $event->getReplyToken());
+            $this->assertEquals('contentid', $event->getMessageId());
+            $this->assertEquals('text', $event->getMessageType());
+            $this->assertEquals('message without emoji', $event->getText());
+            $this->assertEquals(null, $event->getEmojis());
+        }
+
+        {
+            // unsend event
+            $event = $events[30];
+            $this->assertInstanceOf('LINE\LINEBot\Event\UnsendEvent', $event);
+            /** @var UnsendMessage $event */
+            $this->assertEquals('325708', $event->getUnsendMessageId());
+        }
+
+        {
+            // video play complete event
+            $event = $events[31];
+            $this->assertInstanceOf('LINE\LINEBot\Event\VideoPlayCompleteEvent', $event);
+            /** @var UnsendMessage $event */
+            $this->assertEquals('track_id', $event->getTrackingId());
         }
     }
 }
