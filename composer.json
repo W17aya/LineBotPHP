@@ -1,6 +1,6 @@
 {
-    "name": "dwisaputra/feedme",
-    "description": "Line Bot Dicoding",
+    "name": "w17aya/manganopo-chatbot",
+    "description": "Simple line bot using php slim framework",
     "type": "project",
     "require": {
         "php": "^7.2",
@@ -15,8 +15,8 @@
     },
     "authors": [
         {
-            "name": "Dwisaputra204",
-            "email": "dwisaputra204@gmail.com"
+            "name": "W17aya",
+            "email": "ekowijayawindows@gmail.com"
         }
     ],
     "minimum-stability": "stable"
