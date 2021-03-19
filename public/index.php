@@ -77,7 +77,7 @@ $app->post('/webhook', function (Request $request, Response $response) use ($cha
                 if ($event['message']['type'] == 'text') {
                     switch (strtolower($event['message']['text'])) {
                         case 'start':
-                            $text = "Hi, Nama saya Paijo \n\nSaya adalah BOT yang akan membantu kamu untuk memesan \n\nKetik 'Menu' untuk memunculkan menu";
+                            $text = "Hi, Nama saya bang Burjo \n\nSaya adalah BOT yang akan membantu kamu untuk memesan \n\nKetik 'Menu' untuk memunculkan menu";
                             $result = $bot->replyText($event['replyToken'], $text);
                             break;
                         case 'menu':
